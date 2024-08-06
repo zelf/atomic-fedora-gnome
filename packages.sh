@@ -2,61 +2,52 @@
 
 set -ouex pipefail
 
-rpm-ostree install \
-  alsa-firmware \
-  distrobox \
-  ffmpeg \
-  ffmpeg-libs \
-  ffmpegthumbnailer \
-  flatpak-spawn \
-  fzf \
-  grub2-tools-extra \
-  heif-pixbuf-loader \
-  htop \
-  intel-media-driver \
-  just \
-  kernel-tools \
-  libcamera \
-  libcamera-tools \
-  libcamera-gstreamer \
-  libcamera-ipa \
-  libheif-freeworld \
-  libheif-tools \
-  libratbag-ratbagd \
-  libva-intel-driver \
-  libva-utils \
-  lshw \
-  mesa-va-drivers-freeworld.x86_64 \
-  net-tools \
-  nvme-cli \
-  nvtop \
-  openssl \
-  pam-u2f \
-  pam_yubico \
-  pamu2fcfg \
-  pipewire-codec-aptx \
-  pipewire-plugin-libcamera \
-  powerstat \
-  smartmontools \
-  squashfs-tools \
-  symlinks \
-  tcpdump \
-  tmux \
-  traceroute \
-  neovim \
-  wireguard-tools \
-  gnome-epub-thumbnailer \
-  gnome-tweaks
+RELEASE="$(rpm -E %fedora)"
 
-rpm-ostree override remove \
-  ffmpeg-free \
-  libavcodec-free \
-  libavdevice-free \
-  libavfilter-free \
-  libavformat-free \
-  libavutil-free \
-  libpostproc-free \
-  libswresample-free \
-  libswscale-free \
-  mesa-va-drivers \
-  default-fonts-cjk-san
+# build list of all packages requested for inclusion
+INCLUDED_PACKAGES=($(jq -r "[(.all.include | (.all, select(.\"$IMAGE_NAME\" != null).\"$IMAGE_NAME\")[]), \
+                             (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".include | (.all, select(.\"$IMAGE_NAME\" != null).\"$IMAGE_NAME\")[])] \
+                             | sort | unique[]" /ctx/packages.json))
+
+# build list of all packages requested for exclusion
+EXCLUDED_PACKAGES=($(jq -r "[(.all.exclude | (.all, select(.\"$IMAGE_NAME\" != null).\"$IMAGE_NAME\")[]), \
+                             (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".exclude | (.all, select(.\"$IMAGE_NAME\" != null).\"$IMAGE_NAME\")[])] \
+                             | sort | unique[]" /ctx/packages.json))
+
+
+# ensure exclusion list only contains packages already present on image
+if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
+    EXCLUDED_PACKAGES=($(rpm -qa --queryformat='%{NAME} ' ${EXCLUDED_PACKAGES[@]}))
+fi
+
+# simple case to install where no packages need excluding
+if [[ "${#INCLUDED_PACKAGES[@]}" -gt 0 && "${#EXCLUDED_PACKAGES[@]}" -eq 0 ]]; then
+    rpm-ostree install \
+        ${INCLUDED_PACKAGES[@]}
+
+# install/excluded packages both at same time
+elif [[ "${#INCLUDED_PACKAGES[@]}" -gt 0 && "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
+    rpm-ostree override remove \
+        ${EXCLUDED_PACKAGES[@]} \
+        $(printf -- "--install=%s " ${INCLUDED_PACKAGES[@]})
+
+else
+    echo "No packages to install."
+
+fi
+
+# check if any excluded packages are still present
+# (this can happen if an included package pulls in a dependency)
+EXCLUDED_PACKAGES=($(jq -r "[(.all.exclude | (.all, select(.\"$IMAGE_NAME\" != null).\"$IMAGE_NAME\")[]), \
+                             (select(.\"$FEDORA_MAJOR_VERSION\" != null).\"$FEDORA_MAJOR_VERSION\".exclude | (.all, select(.\"$IMAGE_NAME\" != null).\"$IMAGE_NAME\")[])] \
+                             | sort | unique[]" /ctx/packages.json))
+
+if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
+    EXCLUDED_PACKAGES=($(rpm -qa --queryformat='%{NAME} ' ${EXCLUDED_PACKAGES[@]}))
+fi
+
+# remove any excluded packages which are still present on image
+if [[ "${#EXCLUDED_PACKAGES[@]}" -gt 0 ]]; then
+    rpm-ostree override remove \
+        ${EXCLUDED_PACKAGES[@]}
+fi
