@@ -8,6 +8,9 @@ COPY / /
 
 FROM quay.io/fedora-ostree-desktops/silverblue:40
 
+ARG IMAGE_NAME="${IMAGE_NAME:-silverblue}"
+ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
+
 RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
   --mount=type=bind,from=ctx,src=/,dst=/ctx \
   mkdir -p /var/lib/alternatives && \
