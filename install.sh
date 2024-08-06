@@ -10,6 +10,7 @@ mkdir -p /tmp/rpm-repos
 curl -Lo /tmp/rpm-repos/rpmfusion-free-release-"${RELEASE}".noarch.rpm "${RPMFUSION_MIRROR_RPMS}"/free/fedora/rpmfusion-free-release-"${RELEASE}".noarch.rpm
 curl -Lo /tmp/rpm-repos/rpmfusion-nonfree-release-"${RELEASE}".noarch.rpm "${RPMFUSION_MIRROR_RPMS}"/nonfree/fedora/rpmfusion-nonfree-release-"${RELEASE}".noarch.rpm
 
+mkdir -p /tmp/rpms
 curl -Lo /tmp/rpms/wezterm-nightly-fedora40.rpm https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly-fedora40.rpm
 
 rpm-ostree install \
