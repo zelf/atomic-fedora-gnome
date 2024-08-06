@@ -45,10 +45,8 @@ rpm-ostree install \
   traceroute \
   neovim \
   wireguard-tools \
-  zst \
   gnome-epub-thumbnailer \
-  gnome-tweaks \
-  gvfs-nf
+  gnome-tweaks
 
 rpm-ostree override remove \
   ffmpeg-free \
