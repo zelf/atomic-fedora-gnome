@@ -31,7 +31,6 @@
         "libva-intel-driver",
         "libva-utils",
         "mesa-va-drivers-freeworld.x86_64",
-        "nautilus-open-any-terminal",
         "openssl",
         "pam-u2f",
         "pam_yubico",
@@ -62,7 +61,6 @@
       ],
       "silverblue": [
         "gnome-software-rpm-ostree",
-        "gnome-terminal-nautilus",
         "gnome-tour"
       ]
     }
