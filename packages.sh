@@ -2,14 +2,11 @@
 
 set -ouex pipefail
 
-RELEASE="$(rpm -E %fedora)"
-
 # Helper function to parse included/excluded packages
 parse_packages() {
     local key="$1"
     jq -r "[
-        (.all.${key} | (.all, select(.\"${IMAGE_NAME}\" != null).\"${IMAGE_NAME}\")[]), 
-        (select(.\"${FEDORA_MAJOR_VERSION}\" != null).\"${FEDORA_MAJOR_VERSION}\".${key} | (.all, select(.\"${IMAGE_NAME}\" != null).\"${IMAGE_NAME}\")[])] 
+        (.all.${key} | (.all, select(.\"${IMAGE_NAME}\" != null).\"${IMAGE_NAME}\")[])] 
         | sort | unique[]" /ctx/packages.json
 }
 
