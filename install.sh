@@ -13,6 +13,8 @@ curl -Lo /tmp/rpm-repos/rpmfusion-nonfree-release-"${RELEASE}".noarch.rpm "${RPM
 mkdir -p /tmp/rpms
 curl -Lo /tmp/rpms/wezterm-nightly-fedora40.rpm https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly-fedora40.rpm
 
+cp /ctx/files/usr/etc/yum.repos.d/docker-ce.repo /etc/yum.repos.d/docker-ce.repo
+
 rpm-ostree install \
   /tmp/rpms/*.rpm \
   /tmp/rpm-repos/*.rpm \
