@@ -57,7 +57,8 @@
         "libpostproc-free",
         "libswresample-free",
         "libswscale-free",
-        "mesa-va-drivers"
+        "mesa-va-drivers",
+        "podman-docker"
       ],
       "silverblue": [
         "gnome-software-rpm-ostree",
