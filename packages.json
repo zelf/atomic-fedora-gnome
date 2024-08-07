@@ -51,7 +51,6 @@
         "exclude": {
             "all": [
                 "ffmpeg-free",
-                "google-noto-sans-cjk-vf-fonts",
                 "libavcodec-free",
                 "libavdevice-free",
                 "libavfilter-free",
@@ -68,13 +67,10 @@
         "include": {
             "all": [],
             "kinoite": [
-                "kf6-kimageformats",
-            		"qt6-qtimageformats"
             ]
         },
         "exclude": {
             "all": [
-                "default-fonts-cjk-sans"
             ]
         }
     }
