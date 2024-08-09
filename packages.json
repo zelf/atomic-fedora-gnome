@@ -41,6 +41,10 @@
         "symlinks",
         "vim",
         "zstd"
+      ],
+      "silverblue": [
+        "gnome-shell-extension-pop-shell",
+        "gnome-tweaks"
       ]
     },
     "exclude": {
@@ -58,8 +62,6 @@
         "podman-docker"
       ],
       "silverblue": [
-        "gnome-shell-extension-pop-shell",
-        "gnome-tweaks",
         "gnome-software-rpm-ostree",
         "gnome-tour"
       ]
