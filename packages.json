@@ -13,8 +13,6 @@
         "ffmpegthumbnailer",
         "flatpak-spawn",
         "fzf",
-        "gnome-shell-extension-pop-shell",
-        "gnome-tweaks",
         "grub2-tools-extra",
         "gvfs-nfs",
         "heif-pixbuf-loader",
@@ -60,6 +58,8 @@
         "podman-docker"
       ],
       "silverblue": [
+        "gnome-shell-extension-pop-shell",
+        "gnome-tweaks",
         "gnome-software-rpm-ostree",
         "gnome-tour"
       ]
