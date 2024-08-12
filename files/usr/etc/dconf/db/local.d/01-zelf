@@ -34,4 +34,4 @@ allow-volume-above-100-percent=true
 
 [org/gnome/desktop/wm/preferences]
 button-layout=":minimize,maximize,close"
-num-workspaces='4'
+num-workspaces='5'
