@@ -12,4 +12,5 @@ done
 
 systemctl enable docker.socket
 systemctl enable podman.socket
+systemctl enable dconf-update.service
 systemctl enable zelf-groups.service
