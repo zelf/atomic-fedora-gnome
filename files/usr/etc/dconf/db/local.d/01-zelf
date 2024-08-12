@@ -1,0 +1,37 @@
+[org/gnome/shell]
+enabled-extensions=['background-logo@fedorahosted.org', 'pop-shell@system76.com']
+welcome-dialog-last-shown-version='46.0'
+
+[org/gnome/shell/extensions/pop-shell]
+tile-by-default=true
+
+[org/gnome/desktop/interface]
+color-scheme='prefer-dark'
+enable-hot-corners=false
+clock-show-weekday=true
+
+[org/gnome/software]
+allow-updates=false
+download-updates=false
+download-updates-notify=false
+
+[org/gtk/settings/file-chooser]
+sort-directories-first=true
+
+[org/gtk/gtk4/settings/file-chooser]
+sort-directories-first=true
+
+[org/gnome/desktop/wm/keybindings]
+switch-applications = ['<Super>Tab']
+switch-applications-backward = ['<Shift><Super>Tab']
+switch-windows = ['<Alt>Tab']
+switch-windows-backward = ['<Shift><Alt>Tab']
+switch-input-source = ['<Shift><Super>space']
+switch-input-source-backward = ['']
+
+[org/gnome/desktop/sound]
+allow-volume-above-100-percent=true
+
+[org/gnome/desktop/wm/preferences]
+button-layout=":minimize,maximize,close"
+num-workspaces='4'
