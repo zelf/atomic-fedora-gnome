@@ -13,6 +13,9 @@ curl -Lo /tmp/rpm-repos/rpmfusion-nonfree-release-"${RELEASE}".noarch.rpm "${RPM
 mkdir -p /tmp/rpms
 curl -Lo /tmp/rpms/wezterm-nightly-fedora40.rpm https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly-fedora40.rpm
 
+curl -Lo /etc/yum.repos.d/_copr_ryanabx-cosmic.repo \
+  https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-"${RELEASE}"/ryanabx-cosmic-epoch-fedora-"${RELEASE}".repo
+
 cp /ctx/files/usr/etc/yum.repos.d/docker-ce.repo /etc/yum.repos.d/docker-ce.repo
 
 rpm-ostree install \

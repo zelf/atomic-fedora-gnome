@@ -3,6 +3,8 @@
     "include": {
       "all": [
         "alsa-firmware",
+        "cosmic-desktop",
+        "dconf-editor",
         "distrobox",
         "docker-buildx-plugin",
         "docker-ce",
