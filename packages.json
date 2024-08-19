@@ -40,6 +40,7 @@
         "pipewire-plugin-libcamera",
         "podman-compose",
         "powerstat",
+        "ptyxis",
         "smartmontools",
         "solaar-udev",
         "squashfs-tools",
