@@ -3,11 +3,9 @@
 set -ouex pipefail
 
 # Helper function to parse included/excluded packages
-parse_packages() {
-    local key="$1"
-    jq -r "[
-        (.all.${key} | (.all, select(.\"silverblue\" != null).\"silverblue\")[])] 
-        | sort | unique[]" /ctx/packages.json
+get_packages() {
+    local section="$1"  # 'include' or 'exclude'
+    yq -o=csv ".${section} | .[] | flatten | sort | unique | join(\" \")" /ctx/packages.yaml
 }
 
 # Build list of all packages requested for inclusion
