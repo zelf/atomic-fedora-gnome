@@ -23,7 +23,7 @@ rpm-ostree install \
   /tmp/rpm-repos/*.rpm \
   fedora-repos-archive
 
-wget --no-hsts https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && \
+wget --no-hsts https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && \
     chmod +x /usr/bin/yq
 
 /ctx/packages.sh
