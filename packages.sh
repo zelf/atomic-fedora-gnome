@@ -6,7 +6,7 @@ set -ouex pipefail
 parse_packages() {
     local key="$1"
     jq -r "[
-        (.all.${key} | (.all, select(.\"${IMAGE_NAME}\" != null).\"${IMAGE_NAME}\")[])] 
+        (.all.${key} | (.all, select(.\"silverblue\" != null).\"silverblue\")[])] 
         | sort | unique[]" /ctx/packages.json
 }
 

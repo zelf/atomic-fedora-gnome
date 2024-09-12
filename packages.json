@@ -75,14 +75,5 @@
         "gnome-tour"
       ]
     }
-  },
-  "40": {
-    "include": {
-      "all": [],
-      "kinoite": []
-    },
-    "exclude": {
-      "all": []
-    }
   }
 }

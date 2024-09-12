@@ -1,4 +1,3 @@
-ARG IMAGE_NAME="${IMAGE_NAME:-silverblue}"
 ARG SOURCE_IMAGE="${SOURCE_IMAGE:-silverblue}"
 ARG SOURCE_ORG="${SOURCE_ORG:-fedora-ostree-desktops}"
 ARG BASE_IMAGE="quay.io/${SOURCE_ORG}/${SOURCE_IMAGE}"
@@ -7,9 +6,6 @@ FROM scratch AS ctx
 COPY / /
 
 FROM quay.io/fedora-ostree-desktops/silverblue:40
-
-ARG IMAGE_NAME="${IMAGE_NAME:-silverblue}"
-ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
 
 COPY files/usr /usr
 

@@ -6,7 +6,7 @@ env:
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
-  build_ublue:
+  build_custom:
     name: Build Silverblue Main
     runs-on: ubuntu-24.04
     permissions:
@@ -52,7 +52,7 @@ jobs:
           attempt_delay: 15000
           command: |
             set -eo pipefail
-            ver=$(skopeo inspect docker://quay.io/${{ env.SOURCE_ORG }}/${{ env.SOURCE_IMAGE }} | jq -r '.Labels["org.opencontainers.image.version"]')
+            ver=$(skopeo inspect docker://quay.io/${{ env.SOURCE_ORG }}/${{ env.SOURCE_IMAGE }}:40 | jq -r '.Labels["org.opencontainers.image.version"]')
             if [ -z "$ver" ] || [ "null" = "$ver" ]; then
               echo "inspected image version must not be empty or null"
               exit 1
@@ -67,7 +67,7 @@ jobs:
           labels: |
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.version=${{ env.SOURCE_IMAGE_VERSION }}
-            org.opencontainers.image.description=A base Universal Blue silverblue image with batteries included
+            org.opencontainers.image.description=Custom silverblue image.
             ostree.linux=${{ env.KERNEL_VERSION }}
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/zelf/atomic-fedora-gnome/main/README.md
             io.artifacthub.package.logo-url=https://avatars.githubusercontent.com/u/989504?v=4
@@ -83,9 +83,6 @@ jobs:
             IMAGE_NAME=silverblue
             SOURCE_ORG=${{ env.SOURCE_ORG }}
             SOURCE_IMAGE=${{ env.SOURCE_IMAGE }}
-            RPMFUSION_MIRROR=${{ vars.RPMFUSION_MIRROR }}
-            KERNEL_VERSION=${{ env.KERNEL_VERSION }}
-            IMAGE_REGISTRY=${{ env.IMAGE_REGISTRY }}
           labels: ${{ steps.meta.outputs.labels }}
           oci: false
 
