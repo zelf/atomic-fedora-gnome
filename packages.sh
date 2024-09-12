@@ -3,7 +3,7 @@
 set -ouex pipefail
 
 # Helper function to parse included/excluded packages
-get_packages() {
+parse_packages() {
     local section="$1"  # 'include' or 'exclude'
     yq -o=csv ".${section} | .[] | flatten | sort | unique | join(\" \")" /ctx/packages.yaml
 }
