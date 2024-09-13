@@ -17,6 +17,7 @@ curl -Lo /etc/yum.repos.d/_copr_ryanabx-cosmic.repo \
   https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-"${RELEASE}"/ryanabx-cosmic-epoch-fedora-"${RELEASE}".repo
 
 cp /ctx/files/usr/etc/yum.repos.d/docker-ce.repo /etc/yum.repos.d/docker-ce.repo
+cp /ctx/files/usr/etc/yum.repos.d/tailscale.repo /etc/yum.repos.d/tailscale.repo
 
 rpm-ostree install \
   /tmp/rpms/*.rpm \
