@@ -23,7 +23,24 @@ rpm-ostree install \
   /tmp/rpm-repos/*.rpm \
   fedora-repos-archive
 
-wget --no-hsts https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && \
-    chmod +x /usr/bin/yq
+wget --no-hsts https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+chmod +x /usr/bin/yq
 
 /ctx/packages.sh
+
+rm -f /usr/bin/yq
+
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/fedora-cisco-openh264.repo
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:phracek:PyCharm.repo
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/docker-ce.repo
+sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ryanabx-cosmic.repo
+
+for i in /etc/yum.repos.d/rpmfusion-*; do
+  sed -i 's@enabled=1@enabled=0@g' "$i"
+done
+
+
+systemctl enable docker.socket
+systemctl enable podman.socket
+systemctl enable dconf-update.service
+systemctl enable zelf-groups.service
