@@ -1,14 +1,8 @@
 include:
   global:
     - alsa-firmware
-    - cosmic-desktop
     - cascadia-code-fonts
     - dconf-editor
-    - distrobox
-    - docker-buildx-plugin
-    - docker-ce
-    - docker-ce-cli
-    - docker-compose-plugin
     - ffmpeg
     - ffmpeg-libs
     - ffmpegthumbnailer
@@ -38,7 +32,6 @@ include:
     - pamu2fcfg
     - pipewire-codec-aptx
     - pipewire-plugin-libcamera
-    - podman-compose
     - powerstat
     - powerline-fonts
     - ptyxis
@@ -48,9 +41,21 @@ include:
     - symlinks
     - vim
     - zstd
-  silverblue:
+  containers:
+    - distrobox
+    - docker-buildx-plugin
+    - docker-ce
+    - docker-ce-cli
+    - docker-compose-plugin
+    - podman-compose
+  tailscale:
+    - tailscale
+    - gnome-shell-extension-tailscale-gnome-qs
+  gnome:
     - gnome-shell-extension-pop-shell
     - gnome-tweaks
+  cosmic:
+    - cosmic-desktop
 exclude:
   global:
     - ffmpeg-free
