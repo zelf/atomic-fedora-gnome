@@ -3,6 +3,7 @@ include:
     - alsa-firmware
     - cascadia-code-fonts
     - dconf-editor
+    - firefox
     - ffmpeg
     - ffmpeg-libs
     - ffmpegthumbnailer
