@@ -1,7 +1,6 @@
 include:
   global:
     - alsa-firmware
-    - cascadia-code-fonts
     - dconf-editor
     - firefox
     - ffmpeg
@@ -14,7 +13,6 @@ include:
     - gtk3
     - heif-pixbuf-loader
     - intel-media-driver
-    - jetbrains-mono-fonts-all
     - just
     - libcamera
     - libcamera-gstreamer
@@ -24,7 +22,6 @@ include:
     - libheif-tools
     - libva-intel-driver
     - libva-utils
-    - mozilla-fira-mono-fonts
     - openssl
     - pam-u2f
     - pam_yubico
@@ -32,7 +29,6 @@ include:
     - pipewire-codec-aptx
     - pipewire-plugin-libcamera
     - powerstat
-    - powerline-fonts
     - ptyxis
     - smartmontools
     - solaar-udev

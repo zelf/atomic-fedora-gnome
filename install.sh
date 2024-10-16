@@ -24,6 +24,8 @@ rpm-ostree install \
   /tmp/rpm-repos/*.rpm \
   fedora-repos-archive
 
+mkdir -p /usr/share/fonts/NFJetbrainsMono curl -L -o jetbrainsmono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip && sudo unzip -o JetBrainsMono.zip -d /usr/share/fonts/NFJetbrainsMono && rm JetBrainsMono.zip
+
 wget --no-hsts https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
 chmod +x /usr/bin/yq
 
@@ -40,7 +42,6 @@ sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ryanabx-cosmic.repo
 for i in /etc/yum.repos.d/rpmfusion-*; do
   sed -i 's@enabled=1@enabled=0@g' "$i"
 done
-
 
 systemctl enable docker.socket
 systemctl enable podman.socket
