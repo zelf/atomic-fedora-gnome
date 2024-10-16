@@ -24,7 +24,7 @@ rpm-ostree install \
   /tmp/rpm-repos/*.rpm \
   fedora-repos-archive
 
-mkdir -p /usr/share/fonts/NFJetbrainsMono && curl -L -o jetbrainsmono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip && sudo unzip -o JetBrainsMono.zip -d /usr/share/fonts/NFJetbrainsMono && rm JetBrainsMono.zip
+mkdir -p /usr/share/fonts/NFJetbrainsMono && curl -L -o jetbrainsmono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip && unzip -o JetBrainsMono.zip -d /usr/share/fonts/NFJetbrainsMono && rm JetBrainsMono.zip
 
 wget --no-hsts https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
 chmod +x /usr/bin/yq
