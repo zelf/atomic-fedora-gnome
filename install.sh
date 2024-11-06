@@ -17,7 +17,7 @@ curl -Lo /etc/yum.repos.d/_copr_ryanabx-cosmic.repo \
   https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-"${RELEASE}"/ryanabx-cosmic-epoch-fedora-"${RELEASE}".repo
 
 cp /ctx/files/usr/etc/yum.repos.d/docker-ce.repo /etc/yum.repos.d/docker-ce.repo
-cp /ctx/files/usr/etc/yum.repos.d/tailscale.repo /etc/yum.repos.d/tailscale.repo
+# cp /ctx/files/usr/etc/yum.repos.d/tailscale.repo /etc/yum.repos.d/tailscale.repo
 
 rpm-ostree install \
   /tmp/rpms/*.rpm \
@@ -34,7 +34,7 @@ rm -f /usr/bin/yq
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/fedora-cisco-openh264.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:phracek:PyCharm.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/docker-ce.repo
-sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/tailscale.repo
+# sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/tailscale.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ryanabx-cosmic.repo
 
 for i in /etc/yum.repos.d/rpmfusion-*; do
