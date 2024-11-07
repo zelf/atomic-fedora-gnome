@@ -30,7 +30,7 @@ jobs:
           cat <<EOF >> $GITHUB_ENV
           SOURCE_IMAGE=silverblue
           SOURCE_ORG=fedora-ostree-desktops
-          IMAGE_NAME=${{ inputs.image_name }}-${{ inputs.fedora_version }}
+          IMAGE_NAME=${{ inputs.image_name }}
           IMAGE_REGISTRY=ghcr.io/${{ github.repository_owner }}
           FEDORA_VERSION=${{ inputs.fedora_version }}
           EOF
