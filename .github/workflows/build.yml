@@ -85,7 +85,7 @@ jobs:
         id: build_image
         uses: redhat-actions/buildah-build@v2
         with:
-          containerfiles: ./os/Containerfile # Updated path to Containerfile
+          containerfiles: ./os/Containerfile
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: ${{ steps.generate-tags.outputs.alias_tags }}
           build-args: |
