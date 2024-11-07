@@ -1,14 +1,20 @@
 name: build
 on:
-  workflow_call: {}
-
-env:
-  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
+        description: "The name of the image to store in GHCR"
+      fedora_version:
+        required: true
+        type: string
+        description: "The version of Fedora to use"
 
 jobs:
   build_custom:
-    name: Build Silverblue Main
-    runs-on: ubuntu-24.04
+    name: Build Silverblue
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -21,10 +27,13 @@ jobs:
       - name: Set Variables
         shell: bash
         run: |
-          echo "SOURCE_IMAGE=silverblue" >> $GITHUB_ENV
-          echo "SOURCE_ORG=fedora-ostree-desktops" >> $GITHUB_ENV
-          echo "IMAGE_NAME=silverblue-main" >> $GITHUB_ENV
-          echo "IMAGE_REGISTRY=ghcr.io/${{ github.repository_owner }}" >> $GITHUB_ENV
+          cat <<EOF >> $GITHUB_ENV
+          SOURCE_IMAGE=silverblue
+          SOURCE_ORG=fedora-ostree-desktops
+          IMAGE_NAME=${{ inputs.image_name }}-${{ inputs.fedora_version }}
+          IMAGE_REGISTRY=ghcr.io/${{ github.repository_owner }}
+          FEDORA_VERSION=${{ inputs.fedora_version }}
+          EOF
 
       - name: Generate tags
         id: generate-tags
@@ -52,7 +61,7 @@ jobs:
           attempt_delay: 15000
           command: |
             set -eo pipefail
-            ver=$(skopeo inspect docker://quay.io/${{ env.SOURCE_ORG }}/${{ env.SOURCE_IMAGE }}:40 | jq -r '.Labels["org.opencontainers.image.version"]')
+            ver=$(skopeo inspect docker://quay.io/${{ env.SOURCE_ORG }}/${{ env.SOURCE_IMAGE }}:${{ inputs.fedora_version }} | jq -r '.Labels["org.opencontainers.image.version"]')
             if [ -z "$ver" ] || [ "null" = "$ver" ]; then
               echo "inspected image version must not be empty or null"
               exit 1
@@ -69,14 +78,14 @@ jobs:
             org.opencontainers.image.version=${{ env.SOURCE_IMAGE_VERSION }}
             org.opencontainers.image.description=Custom silverblue image.
             ostree.linux=${{ env.KERNEL_VERSION }}
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/zelf/atomic-fedora-gnome/main/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/zelf/atomic-fedora-gnome/main/os/README.md
             io.artifacthub.package.logo-url=https://avatars.githubusercontent.com/u/989504?v=4
 
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@v2
         with:
-          containerfiles: ./Containerfile
+          containerfiles: ./os/Containerfile # Updated path to Containerfile
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: ${{ steps.generate-tags.outputs.alias_tags }}
           build-args: |
@@ -89,19 +98,14 @@ jobs:
       - name: Push to GHCR
         uses: Wandalen/wretry.action@v3.5.0
         id: push
-        env:
-          REGISTRY_USER: ${{ github.actor }}
-          REGISTRY_PASSWORD: ${{ github.token }}
         with:
           action: redhat-actions/push-to-registry@v2
           attempt_limit: 3
           attempt_delay: 15000
           with: |
-            image: ${{ steps.build_image.outputs.image }}
+            image: ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
             tags: ${{ steps.build_image.outputs.tags }}
             registry: ghcr.io
-            username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
             extra-args: |
               --disable-content-trust
 
@@ -112,13 +116,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: sigstore/cosign-installer@v3.5.0
+      - uses: sigstore/cosign-installer@latest
 
       - name: Sign container image
         run: |
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.build_image.outputs.image }}@${TAGS}
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.build_image.outputs.image }}@${{ steps.push.outputs.digest }}
         env:
-          TAGS: ${{ steps.push.outputs.outputs && fromJSON(steps.push.outputs.outputs).digest }}
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
 

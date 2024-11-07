@@ -3,7 +3,7 @@ ARG SOURCE_ORG="${SOURCE_ORG:-fedora-ostree-desktops}"
 ARG BASE_IMAGE="quay.io/${SOURCE_ORG}/${SOURCE_IMAGE}"
 
 FROM scratch AS ctx
-COPY / /
+COPY /os /
 
 FROM quay.io/fedora-ostree-desktops/silverblue:40
 
