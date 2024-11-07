@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: |
           TIMESTAMP="$(date +%Y%m%d)"
-          BUILD_TAGS=("latest")
+          BUILD_TAGS=("latest" "${FEDORA_VERSION}")
 
           # Add timestamp tag for version history
           BUILD_TAGS+=("${TIMESTAMP}")
